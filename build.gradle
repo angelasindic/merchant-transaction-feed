@@ -24,6 +24,8 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testCompile group: 'io.rest-assured', name: 'spring-mock-mvc', version: '4.3.3'
+    testCompile group: 'io.rest-assured', name:'rest-assured-common', version: '4.3.3'
 }
 
 test {
