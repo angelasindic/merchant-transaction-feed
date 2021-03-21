@@ -31,9 +31,9 @@ public class TransactionControllerIntegrationTest {
 
     @Test
     public void transactionsShouldReturnTransactionsByAccountNumber() throws Exception {
-        List<Transaction> mockResult = List.of(new Transaction("type", Date.valueOf("2020-01-01"), 123L, "EURO",
+        List<Transaction> mockResult = List.of(new Transaction(123, "type", Date.valueOf("2020-02-02"), "EURO",
                 100.0, "m1", "m1_logo"));
-        when(transactionService.findAllByAccountNumber(123L)).thenReturn(mockResult);
+        when(transactionService.findAllByAccountNumber(123)).thenReturn(mockResult);
         this.mockMvc.perform(get("/transactions/123"))
                 .andDo(print())
                 .andExpect(status().isOk())

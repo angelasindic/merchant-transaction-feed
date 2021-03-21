@@ -15,6 +15,6 @@ public class TransactionServiceTests {
 
     @Test
     public void transactionTest() {
-        assertThat(transactionService.findAllByAccountNumber(1L), hasSize(1));
+        assertThat(transactionService.findAllByAccountNumber(1), hasSize(1));
     }
 }

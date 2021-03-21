@@ -1,7 +1,19 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        maven { url "https://repo1.maven.org/maven2" }
+    }
+    dependencies {
+        classpath "org.openapitools:openapi-generator-gradle-plugin:5.0.0"
+    }
+}
+
+
 plugins {
     id 'org.springframework.boot' version '2.4.3'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id 'org.openapi.generator' version '5.0.0'
 }
 
 group = 'projects.spring'
@@ -16,17 +28,46 @@ configurations {
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'io.springfox:springfox-swagger2:2.9.2'
+    implementation 'io.springfox:springfox-swagger-ui:2.9.2'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
     compileOnly 'org.projectlombok:lombok'
+    compile 'javax.validation:validation-api'
+    compile 'org.openapitools:jackson-databind-nullable:0.2.1'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testCompile group: 'io.rest-assured', name: 'spring-mock-mvc', version: '4.3.3'
+    testCompile (group: 'io.rest-assured', name: 'spring-mock-mvc', version: '4.3.3') {
+        exclude group: 'com.sun.xml.bind', module: 'jaxb-osgi'
+    }
     testCompile group: 'io.rest-assured', name:'rest-assured-common', version: '4.3.3'
 }
+
+task generateSampleClient(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+    generatorName = "spring"
+    generateModelDocumentation = false
+    generateApiDocumentation = false
+    inputSpec = "$rootDir/api-gen/api-spec.yml".toString()
+    outputDir = "$buildDir/api-client-generated".toString()
+    invokerPackage = "com.acme.banking.invoker"
+    modelPackage = "com.acme.banking.model"
+    apiPackage = "com.acme.banking.api"
+    configOptions = [
+            dateLibrary: "java8",
+            basePackage: "com.acme.banking",
+            interfaceOnly: "true",
+            useBeanValidation: "false"
+    ]
+    skipValidateSpec = true
+    logToStderr = true
+}
+
 
 test {
     useJUnitPlatform()
