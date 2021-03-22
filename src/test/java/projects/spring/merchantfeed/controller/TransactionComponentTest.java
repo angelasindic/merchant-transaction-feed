@@ -32,7 +32,7 @@ public class TransactionComponentTest {
 
     @Test
     public void testMore() {
-//        RestAssured.baseURI = "http://localhosit";
+//        RestAssured.baseURI = "http://localhost";
 //        RestAssured.port = port;
         RestAssured.reset();
         given().standaloneSetup(transactionController)

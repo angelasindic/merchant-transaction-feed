@@ -33,7 +33,7 @@ public class RESTTransactionsAPIClient implements TransactionApiClient {
                 .bodyToMono(OBReadTransaction6.class)
                 .map(this::apply)
                 .timeout(Duration.ofSeconds(5))
-                .onErrorReturn(Collections.emptyList())
+                //.onErrorReturn(Collections.emptyList())
                 .block();
     }
 
