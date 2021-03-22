@@ -20,7 +20,6 @@ public class RESTTransactionsAPIClient implements TransactionApiClient {
     private WebClient webClient;
     private final OBTransactionAdapter adapter = new OBTransactionAdapter();
 
-
     @Override
     public List<Transaction> findByAccountNumber(Integer accountNumber) {
         return webClient.get()
@@ -33,13 +32,11 @@ public class RESTTransactionsAPIClient implements TransactionApiClient {
                 .bodyToMono(OBReadTransaction6.class)
                 .map(this::apply)
                 .timeout(Duration.ofSeconds(5))
-                .onErrorReturn(Collections.emptyList())
+                //.onErrorReturn(Collections.emptyList())
                 .block();
     }
 
     private List<Transaction> apply(OBReadTransaction6 t) {
         return t.getData().getTransaction().stream().map(adapter::adapt).collect(Collectors.toList());
     }
-
-    ///accounts/{AccountId}/transactions
 }
